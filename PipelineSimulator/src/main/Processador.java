@@ -5,9 +5,9 @@ import main.helper.InstructionHelper;
 import main.model.Instrucao;
 import main.model.enumerador.Operacao;
 
-public class Processador {
+import java.util.Scanner;
 
-	private String[] memDados;
+public class Processador {
 	private int[] registradores = new int[32];
 	
 	private static int PC = 0;
@@ -16,10 +16,12 @@ public class Processador {
 	private static int op2 = 0;
 	private static int op3 = 0;
 
-	private static int buffer = 0;
+	private static int bufferExMem = 0;
+
+	private static int cicleCount = 0;
 
 	public void runPipeline() {
-		while (true) {
+		while (true) { //Clock
 			wb(
 					mem(
 							exec(
@@ -29,18 +31,19 @@ public class Processador {
 							)
 					)
 			);
+            System.out.println(cicleCount++);
 		}
 	}
 	
 	private Instrucao busca() {
-		System.out.println("BUSCA");
-		PC++;
+        capturarKey("BUSCA");
+        PC++;
 		final String linha = FileHelper.lerLinha(PC);
 		return InstructionHelper.mapeiaInstrucao(linha);
 	}
 	
 	private Instrucao decod(Instrucao instrucao) {
-		System.out.println("DECOD");
+        capturarKey("DECOD");
 		op1 = Integer.parseInt(instrucao.getOp1());
 		op2 = Integer.parseInt(instrucao.getOp2() == null ? "0" : instrucao.getOp2());
 		op3 = Integer.parseInt(instrucao.getOp3() == null ? "0" : instrucao.getOp3());
@@ -48,26 +51,26 @@ public class Processador {
 	}
 	
 	private Instrucao exec(Instrucao instrucao) {
-		System.out.println("EXEC");
+        capturarKey("EXEC");
 		switch (instrucao.getOpCode()) {
 		case ADD:
-			buffer = registradores[op2] + registradores[op3];
+			bufferExMem = registradores[op2] + registradores[op3];
 			break;
 			
 		case ADDI:
-			buffer = registradores[op2] + op3;
+			bufferExMem = registradores[op2] + op3;
 			break;
 
 		case SUB:
-			buffer = registradores[op2] - registradores[op3];
+			bufferExMem = registradores[op2] - registradores[op3];
 			break;
 			
 		case SUBI:
-			buffer = registradores[op2] - op3;
+			bufferExMem = registradores[op2] - op3;
 			break;
 			
 		case B:
-			PC = op1;
+			PC = PC + op1;
 			break;
 
 		case BEQ:
@@ -84,16 +87,22 @@ public class Processador {
 	}
 	
 	private Instrucao mem(Instrucao instrucao) {
-		System.out.println("MEM");
+        capturarKey("MEM");
 		//salva em tal posicao
 		return instrucao;
 	}
 	
 	private void wb(Instrucao instrucao) {
-		System.out.println("WB");
+        capturarKey("WB");
 		if (instrucao.getOpCode() != Operacao.B) {
-			registradores[op1] = buffer;
+			registradores[op1] = bufferExMem;
 		}
 	}
+
+	private void capturarKey(String estagio) {
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Pressione para executar " + estagio);
+        keyboard.nextLine();
+    }
 	
 }
