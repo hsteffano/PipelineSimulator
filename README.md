@@ -1,2 +1,2 @@
 # PipelineSimulator
-Project for simulating a MIPS-based processor pipeline
+Project for simulating a MIPS-based processor pipeline.
