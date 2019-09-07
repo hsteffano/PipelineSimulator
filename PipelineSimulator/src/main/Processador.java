@@ -3,6 +3,7 @@ package main;
 import main.helper.FileHelper;
 import main.helper.InstructionHelper;
 import main.model.Instrucao;
+import main.model.enumerador.Operacao;
 
 public class Processador {
 
@@ -90,7 +91,9 @@ public class Processador {
 	
 	private void wb(Instrucao instrucao) {
 		System.out.println("WB");
-		registradores[op1] = buffer;
+		if (instrucao.getOpCode() != Operacao.B) {
+			registradores[op1] = buffer;
+		}
 	}
 	
 }
