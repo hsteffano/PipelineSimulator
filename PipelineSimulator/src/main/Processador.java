@@ -96,6 +96,7 @@ public class Processador {
         capturarKey("WB");
 		if (instrucao.getOpCode() != Operacao.B) {
 			registradores[op1] = bufferExMem;
+			log("resultado " + bufferExMem);
 		}
 	}
 
@@ -104,5 +105,9 @@ public class Processador {
         System.out.println("Pressione para executar " + estagio);
         keyboard.nextLine();
     }
+
+    private void log(String msg) {
+		System.out.println(msg);
+	}
 	
 }
