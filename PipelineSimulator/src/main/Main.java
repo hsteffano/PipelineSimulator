@@ -2,8 +2,10 @@ package main;
 
 public class Main {
 
-	public static void main(String[] args) {
+	private static Processador processador = new Processador();
 
+	public static void main(String[] args) {
+		processador.runPipeline();
 	}
 
 }

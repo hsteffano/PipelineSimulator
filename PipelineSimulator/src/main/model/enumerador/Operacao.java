@@ -1,4 +1,4 @@
-package model.enumerador;
+package main.model.enumerador;
 
 public enum Operacao {
 	ADD("add"), ADDI("addi"), SUB("sub"), SUBI("subi"), BEQ("beq"), B("b");    

@@ -1,6 +1,6 @@
-package model;
+package main.model;
 
-import model.enumerador.Operacao;
+import main.model.enumerador.Operacao;
 
 public class Instrucao {
 
