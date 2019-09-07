@@ -18,7 +18,7 @@ public class Processador {
 
 	private static int bufferExMem = 0;
 
-	private static int cicleCount = 0;
+	private static int cicleCount = 1;
 
 	public void runPipeline() {
 		while (true) { //Clock
@@ -31,7 +31,7 @@ public class Processador {
 							)
 					)
 			);
-            System.out.println(cicleCount++);
+            log("ciclos: " + cicleCount++);
 		}
 	}
 	
@@ -39,6 +39,7 @@ public class Processador {
         capturarKey("BUSCA");
         PC++;
 		final String linha = FileHelper.lerLinha(PC);
+		log("fetched: " + linha);
 		return InstructionHelper.mapeiaInstrucao(linha);
 	}
 	
@@ -88,7 +89,7 @@ public class Processador {
 	
 	private Instrucao mem(Instrucao instrucao) {
         capturarKey("MEM");
-		//salva em tal posicao
+		//salva em mem
 		return instrucao;
 	}
 	
@@ -102,7 +103,7 @@ public class Processador {
 
 	private void capturarKey(String estagio) {
         Scanner keyboard = new Scanner(System.in);
-        System.out.println("Pressione para executar " + estagio);
+        log("Pressione para executar " + estagio);
         keyboard.nextLine();
     }
 
