@@ -3,6 +3,11 @@ package main.helper;
 import main.model.Instrucao;
 import main.model.enumerador.Operacao;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public final class InstructionHelper {
 
 	public static Instrucao mapeiaInstrucao(String linha) {
@@ -10,18 +15,18 @@ public final class InstructionHelper {
 		final int opCodeEnd = linha.indexOf(' ');
 		instrucao.setOpCode(Operacao.valueOf(linha.substring(0, opCodeEnd).toUpperCase()));
 
-		final int op1Start = linha.indexOf('t') + 1;
-		final int op1End = linha.indexOf(',');
-		instrucao.setOp1(linha.substring(op1Start, op1End));
+		final List<String> parametros = new ArrayList<>();
+		final Matcher matcher = Pattern.compile("-?[0-9]").matcher(linha.substring(opCodeEnd, linha.indexOf('#')));
+		while (matcher.find()) {
+			parametros.add(matcher.group());
+		}
 
-		final int op2Start = linha.indexOf('t', op1End) + 1;
-		final int op2End = linha.indexOf(',', op1End + 1);
-		instrucao.setOp2(linha.substring(op2Start, op2End));
+		instrucao.setOp1(parametros.get(0));
+		if (parametros.size() > 1) {
+			instrucao.setOp2(parametros.get(1));
+			instrucao.setOp3(parametros.get(2));
+		}
 
-		final int op3Start = linha.indexOf(' ', op2End + 1);
-		final int op3End = linha.indexOf(' ', op3Start + 1);
-		instrucao.setOp3(linha.substring(op3Start + 1, op3End));
-		
 		return instrucao;
 	}
 
