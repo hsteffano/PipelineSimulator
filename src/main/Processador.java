@@ -37,7 +37,7 @@ public class Processador {
             log("ciclos: " + cicleCount++);
 		}
 	}
-	
+	//STAGES
 	private Instrucao busca() {
         liberarEstagio("BUSCA");
         PC++;
@@ -114,7 +114,7 @@ public class Processador {
         log("Pressione para executar " + estagio);
         keyboard.nextLine();
     }
-
+    //PREDICTION
     private boolean buscarPredicao(Instrucao instrucao) {
         return predicoes[getEnderecoPredicao(stringToInt(instrucao.getOp3()))];
 	}
@@ -141,7 +141,7 @@ public class Processador {
     private int stringToInt(String string) {
 	    return Integer.parseInt(string == null ? "0" : string);
     }
-
+    //LOG
     private void log(String msg) {
 		System.out.println(msg);
 	}
