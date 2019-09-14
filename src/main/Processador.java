@@ -9,7 +9,8 @@ import java.util.Scanner;
 
 public class Processador {
 	private int[] registradores = new int[32];
-	
+	private boolean[] predicoes = new boolean[32];
+
 	private static int PC = 0;
 	
 	private static int op1 = 0;
@@ -19,6 +20,8 @@ public class Processador {
 	private static int bufferExMem = 0;
 
 	private static int cicleCount = 1;
+	private static int validCount = 0;
+	private static int invalidCount = 0;
 
 	public void runPipeline() {
 		while (true) { //Clock
@@ -34,25 +37,30 @@ public class Processador {
             log("ciclos: " + cicleCount++);
 		}
 	}
-	
+	//STAGES
 	private Instrucao busca() {
-        capturarKey("BUSCA");
+        liberarEstagio("BUSCA");
         PC++;
 		final String linha = FileHelper.lerLinha(PC);
 		log("fetched: " + linha);
-		return InstructionHelper.mapeiaInstrucao(linha);
+		Instrucao instrucao = InstructionHelper.mapeiaInstrucao(linha);
+		if (instrucao.getOpCode() == Operacao.BEQ && buscarPredicao(instrucao)) {
+		    instrucao.setValida(true);
+            PC = PC + stringToInt(instrucao.getOp3());
+        }
+		return instrucao;
 	}
-	
-	private Instrucao decod(Instrucao instrucao) {
-        capturarKey("DECOD");
-		op1 = Integer.parseInt(instrucao.getOp1());
-		op2 = Integer.parseInt(instrucao.getOp2() == null ? "0" : instrucao.getOp2());
-		op3 = Integer.parseInt(instrucao.getOp3() == null ? "0" : instrucao.getOp3());
+
+    private Instrucao decod(Instrucao instrucao) {
+        liberarEstagio("DECOD");
+		op1 = stringToInt(instrucao.getOp1());
+		op2 = stringToInt(instrucao.getOp2());
+		op3 = stringToInt(instrucao.getOp3());
 		return instrucao;
 	}
 	
 	private Instrucao exec(Instrucao instrucao) {
-        capturarKey("EXEC");
+        liberarEstagio("EXEC");
 		switch (instrucao.getOpCode()) {
 		case ADD:
 			bufferExMem = registradores[op2] + registradores[op3];
@@ -75,9 +83,9 @@ public class Processador {
 			break;
 
 		case BEQ:
-			if (op1 == op2) {
-				PC = PC + op3;
-			}
+            boolean validade = op1 == op2;
+            if (validade) {validCount++;} else {invalidCount++;}
+            atualizarPredicao(instrucao, validade);
 			break;
 
 		default:
@@ -88,25 +96,52 @@ public class Processador {
 	}
 	
 	private Instrucao mem(Instrucao instrucao) {
-        capturarKey("MEM");
+        liberarEstagio("MEM");
 		//salva em mem
 		return instrucao;
 	}
 	
 	private void wb(Instrucao instrucao) {
-        capturarKey("WB");
+        liberarEstagio("WB");
 		if (instrucao.getOpCode() != Operacao.B) {
 			registradores[op1] = bufferExMem;
-			log("resultado " + bufferExMem);
+			log("resultado " + bufferExMem + " validas " + validCount + " invalidas " + invalidCount);
 		}
 	}
 
-	private void capturarKey(String estagio) {
+	private void liberarEstagio(String estagio) {
         Scanner keyboard = new Scanner(System.in);
         log("Pressione para executar " + estagio);
         keyboard.nextLine();
     }
+    //PREDICTION
+    private boolean buscarPredicao(Instrucao instrucao) {
+        return predicoes[getEnderecoPredicao(stringToInt(instrucao.getOp3()))];
+	}
 
+	private void atualizarPredicao(Instrucao instrucao, boolean validade) {
+	    int endereco = getEnderecoPredicao(stringToInt(instrucao.getOp3()));
+        predicoes[endereco] = validade;
+        if (!validade && instrucao.isValida()) {
+            PC = PC - stringToInt(instrucao.getOp3());
+            busca();
+        }
+    }
+
+	private int getEnderecoPredicao(int op) {
+	    if (op > 32) {
+	        if (op > 100) {
+	            op = op % 100;
+            }
+            op = op % 10;
+        }
+	    return op;
+    }
+
+    private int stringToInt(String string) {
+	    return Integer.parseInt(string == null ? "0" : string);
+    }
+    //LOG
     private void log(String msg) {
 		System.out.println(msg);
 	}
