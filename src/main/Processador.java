@@ -105,7 +105,7 @@ public class Processador {
         liberarEstagio("WB");
 		if (instrucao.getOpCode() != Operacao.B) {
 			registradores[op1] = bufferExMem;
-			log("resultado " + bufferExMem + " validas " + validCount + " invalidas " + invalidCount);
+			log("-FINAL- validas " + validCount + " invalidas " + invalidCount);
 		}
 	}
 
