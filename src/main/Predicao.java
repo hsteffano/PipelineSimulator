@@ -8,7 +8,10 @@ public final class Predicao {
     private static boolean[] predicoes = new boolean[32];
 
     public static boolean buscarPredicao(Instrucao instrucao) {
-        return predicoes[getEnderecoPredicao(stringToInt(instrucao.getOp3()))];
+        if (Processador.incluirPredicao)
+            return predicoes[getEnderecoPredicao(stringToInt(instrucao.getOp3()))];
+        else
+            return true;
     }
 
     public static void atualizarPredicao(Instrucao instrucao, boolean validade) {

@@ -34,7 +34,6 @@ public final class Exec implements Stage {
 
 		case BEQ:
             boolean validade = Processador.bufferDecodEx.getTemp1() == Processador.bufferDecodEx.getTemp2();
-            if (validade) {Processador.validCount++;} else {Processador.invalidCount++;}
 			Predicao.atualizarPredicao(instrucaoARodar, validade);
 			break;
 

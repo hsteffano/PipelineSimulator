@@ -14,7 +14,14 @@ import main.stages.Wb;
 import static main.helper.StringUtils.stringToInt;
 
 public final class Processador {
-	public static int[] registradores = new int[32];
+
+    public Processador(boolean incluirPredicao) {
+        this.incluirPredicao = incluirPredicao;
+    }
+
+    public static boolean incluirPredicao;
+
+    public static int[] registradores = new int[32];
     public static Wb wb = new Wb();
     public static Mem mem = new Mem();
     public static Exec exec = new Exec();
@@ -28,11 +35,12 @@ public final class Processador {
 	public static Buffer bufferExMem = new Buffer();
 	public static Buffer bufferMemWb = new Buffer();
 
+	//STATS
 	public static int cicleCount = 0;
 	public static int validCount = 0;
 	public static int invalidCount = 0;
 
-	public void runPipeline(boolean incluirPredicao) {
+	public void runPipeline() {
 		while (true) { //Clock
 	        Processador.PC++;
 			wb.rodar(mem.getInstrucao());
@@ -45,7 +53,7 @@ public final class Processador {
 		}
 	}
 
-	public static void liberarPipeline() {
+	private static void liberarPipeline() {
         final Scanner keyboard = new Scanner(System.in);
         LogHelper.log("BUSCA" + busca.getInstrucao().toString());
         LogHelper.log("DEC  " + dec.getInstrucao().toString());
