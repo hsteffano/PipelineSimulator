@@ -15,9 +15,9 @@ public final class Predicao {
     }
 
     public static void atualizarPredicao(Instrucao instrucao, boolean validade) {
-        int endereco = getEnderecoPredicao(stringToInt(instrucao.getOp3()));
-        predicoes[endereco] = validade;
         if (!validade && instrucao.isValida()) {
+            int endereco = getEnderecoPredicao(stringToInt(instrucao.getOp3()));
+            predicoes[endereco] = false;
             Processador.PC = Processador.PC - stringToInt(instrucao.getOp3());
             Processador.busca.rodar(new Instrucao());
         }
