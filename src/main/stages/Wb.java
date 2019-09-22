@@ -4,17 +4,19 @@ import main.Processador;
 import main.model.Instrucao;
 import main.model.enumerador.Operacao;
 
+import static main.helper.StringUtils.stringToInt;
+
 public final class Wb implements Stage {
-	
-	private static Instrucao instrucao = new Instrucao();
+
+	private Instrucao instrucao = new Instrucao();
 	
 	public void rodar(Instrucao instrucaoARodar) {
-        Processador.liberarEstagio("WB");
 		if (!instrucaoARodar.isValida())
 			return;
 		if (instrucaoARodar.getOpCode() != Operacao.B) {
-			Processador.registradores[Processador.stringToInt(instrucaoARodar.getOp1())] = Processador.bufferMemWb.getTemp1();
+			Processador.registradores[stringToInt(instrucaoARodar.getOp1())] = Processador.bufferMemWb.getTemp1();
 		}
+		if (instrucaoARodar.isValida()) {Processador.validCount++;} else {Processador.invalidCount++;}
 		this.instrucao = instrucaoARodar;
 	}
 

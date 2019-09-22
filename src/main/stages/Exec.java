@@ -1,14 +1,14 @@
 package main.stages;
 
+import main.Predicao;
 import main.Processador;
 import main.model.Instrucao;
 
 public final class Exec implements Stage {
 	
-	private static Instrucao instrucao = new Instrucao();
+	private Instrucao instrucao = new Instrucao();
 	
 	public void rodar(Instrucao instrucaoARodar) {
-        Processador.liberarEstagio("EXEC");
 		if (!instrucaoARodar.isValida())
 			return;
 		switch (instrucaoARodar.getOpCode()) {
@@ -34,8 +34,7 @@ public final class Exec implements Stage {
 
 		case BEQ:
             boolean validade = Processador.bufferDecodEx.getTemp1() == Processador.bufferDecodEx.getTemp2();
-            if (validade) {Processador.validCount++;} else {Processador.invalidCount++;}
-            Processador.atualizarPredicao(instrucaoARodar, validade);
+			Predicao.atualizarPredicao(instrucaoARodar, validade);
 			break;
 
 		default:
