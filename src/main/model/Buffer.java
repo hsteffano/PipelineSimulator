@@ -1,4 +1,4 @@
-package main;
+package main.model;
 
 public class Buffer {
     private int temp1 = 0;

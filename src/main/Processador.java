@@ -3,6 +3,7 @@ package main;
 import java.util.Scanner;
 
 import main.helper.LogHelper;
+import main.model.Buffer;
 import main.model.Instrucao;
 import main.stages.Busca;
 import main.stages.Dec;
@@ -10,14 +11,15 @@ import main.stages.Exec;
 import main.stages.Mem;
 import main.stages.Wb;
 
+import static main.helper.StringUtils.stringToInt;
+
 public final class Processador {
 	public static int[] registradores = new int[32];
-	private static boolean[] predicoes = new boolean[32];
-	private static Wb wb = new Wb();
-	private static Mem mem = new Mem();
-	private static Exec exec = new Exec();
-	private static Dec dec = new Dec();
-	private static Busca busca = new Busca();
+    public static Wb wb = new Wb();
+    public static Mem mem = new Mem();
+    public static Exec exec = new Exec();
+    public static Dec dec = new Dec();
+    public static Busca busca = new Busca();
 
 	public static int PC = 0;
 
@@ -26,7 +28,7 @@ public final class Processador {
 	public static Buffer bufferExMem = new Buffer();
 	public static Buffer bufferMemWb = new Buffer();
 
-	public static int cicleCount = 1;
+	public static int cicleCount = 0;
 	public static int validCount = 0;
 	public static int invalidCount = 0;
 
@@ -38,43 +40,29 @@ public final class Processador {
 			exec.rodar(dec.getInstrucao());
 			dec.rodar(busca.getInstrucao());
 			busca.rodar(new Instrucao());
-			LogHelper.log("-FIM INSTRUCAO- validas " + validCount + " invalidas " + invalidCount + " ciclos " + cicleCount++);
+            cicleCount++;
+			liberarPipeline();
 		}
 	}
 
-	public static void liberarEstagio(final String estagio) {
+	public static void liberarPipeline() {
         final Scanner keyboard = new Scanner(System.in);
-        LogHelper.log("Pressione para executar " + estagio);
+        LogHelper.log("BUSCA" + busca.getInstrucao().toString());
+        LogHelper.log("DEC  " + dec.getInstrucao().toString());
+        LogHelper.log("EXEC " + exec.getInstrucao().toString());
+        LogHelper.log("MEM  " + mem.getInstrucao().toString());
+        LogHelper.log("WB   " + wb.getInstrucao().toString());
+        LogHelper.log("ciclos " + cicleCount + " validas " + validCount + " invalidas " + invalidCount);
+        LogHelper.log("Pressione para avançar um ciclo");
         keyboard.nextLine();
     }
-    //PREDICTION
-    public static boolean buscarPredicao(Instrucao instrucao) {
-        return predicoes[getEnderecoPredicao(stringToInt(instrucao.getOp3()))];
-	}
 
-	public static void atualizarPredicao(Instrucao instrucao, boolean validade) {
-	    int endereco = getEnderecoPredicao(stringToInt(instrucao.getOp3()));
-        predicoes[endereco] = validade;
-        if (!validade && instrucao.isValida()) {
-            PC = PC - stringToInt(instrucao.getOp3());
-            busca.rodar(new Instrucao());
-        }
-    }
-
-	public static int getEnderecoPredicao(int op) {
-	    if (op > 32) {
-	        if (op > 100) {
-	            op = op % 100;
-            }
-            op = op % 10;
-        }
-	    return op;
-    }
-
-    public static void invalidarPipeline() {}
-
-    public static int stringToInt(String string) {
-	    return Integer.parseInt(string == null ? "0" : string);
+    public static void invalidarPipeline() {
+        busca.getInstrucao().setValida(false);
+        dec.getInstrucao().setValida(false);
+        exec.getInstrucao().setValida(false);
+        mem.getInstrucao().setValida(false);
+        wb.getInstrucao().setValida(false);
     }
 	
 }

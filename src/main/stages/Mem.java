@@ -5,10 +5,9 @@ import main.model.Instrucao;
 
 public final class Mem implements Stage {
 	
-	private static Instrucao instrucao = new Instrucao();
+	private Instrucao instrucao = new Instrucao();
 	
 	public void rodar(Instrucao instrucaoARodar) {
-        Processador.liberarEstagio("MEM");
 		if (!instrucaoARodar.isValida())
 			return;
 		//salva em mem

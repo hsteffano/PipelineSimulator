@@ -63,5 +63,9 @@ public class Instrucao {
 	public void setValida(boolean valida) {
 		this.valida = valida;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "{opCode=" + opCode + ", op1=" + op1 + ", op2=" + op2 + ", op3=" + op3 + ", valida=" + valida + '}';
+	}
 }
