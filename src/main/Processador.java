@@ -69,8 +69,6 @@ public final class Processador {
         busca.getInstrucao().setValida(false);
         dec.getInstrucao().setValida(false);
         exec.getInstrucao().setValida(false);
-        mem.getInstrucao().setValida(false);
-        wb.getInstrucao().setValida(false);
     }
 	
 }

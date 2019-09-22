@@ -28,10 +28,6 @@ public final class Exec implements Stage {
 			Processador.bufferExMem.setTemp1(Processador.bufferDecodEx.getTemp2() - Processador.bufferDecodEx.getTemp3());
 			break;
 
-		case B:
-			Processador.PC = Processador.PC + Processador.bufferDecodEx.getTemp1();
-			break;
-
 		case BEQ:
             boolean validade = Processador.bufferDecodEx.getTemp1() == Processador.bufferDecodEx.getTemp2();
 			Predicao.atualizarPredicao(instrucaoARodar, validade);

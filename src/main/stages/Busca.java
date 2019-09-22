@@ -21,7 +21,7 @@ public final class Busca implements Stage {
 		switch (instrucaoARodar.getOpCode()) {
 			case B:
 				bToBeq(instrucaoARodar);
-				instrucaoARodar.setValida(false);
+				instrucaoARodar.setValida(true);
 				jump(instrucaoARodar.getOp3());
 				break;
 
