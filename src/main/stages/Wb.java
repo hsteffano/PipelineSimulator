@@ -13,7 +13,7 @@ public final class Wb implements Stage {
 		if (!instrucaoARodar.isValida())
 			return;
 		if (instrucaoARodar.getOpCode() != Operacao.B) {
-			Processador.registradores[Processador.op1] = Processador.bufferExMem;
+			Processador.registradores[Processador.stringToInt(instrucaoARodar.getOp1())] = Processador.bufferMemWb.getTemp1();
 		}
 		this.instrucao = instrucaoARodar;
 	}

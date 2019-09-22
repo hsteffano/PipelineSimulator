@@ -2,7 +2,6 @@ package main.stages;
 
 import main.Processador;
 import main.model.Instrucao;
-import main.model.enumerador.Operacao;
 
 public final class Exec implements Stage {
 	
@@ -14,27 +13,27 @@ public final class Exec implements Stage {
 			return;
 		switch (instrucaoARodar.getOpCode()) {
 		case ADD:
-			Processador.bufferExMem = Processador.op2 + Processador.op3;
+			Processador.bufferExMem.setTemp1(Processador.bufferDecodEx.getTemp2() + Processador.bufferDecodEx.getTemp3());
 			break;
 			
 		case ADDI:
-			Processador.bufferExMem = Processador.op2 + Processador.op3;
+			Processador.bufferExMem.setTemp1(Processador.bufferDecodEx.getTemp2() + Processador.bufferDecodEx.getTemp3());
 			break;
 
 		case SUB:
-			Processador.bufferExMem = Processador.op2 - Processador.op3;
+			Processador.bufferExMem.setTemp1(Processador.bufferDecodEx.getTemp2() - Processador.bufferDecodEx.getTemp3());
 			break;
-			
+
 		case SUBI:
-			Processador.bufferExMem = Processador.op2 - Processador.op3;
+			Processador.bufferExMem.setTemp1(Processador.bufferDecodEx.getTemp2() - Processador.bufferDecodEx.getTemp3());
 			break;
-			
+
 		case B:
-			Processador.PC = Processador.PC + Processador.op1;
+			Processador.PC = Processador.PC + Processador.bufferDecodEx.getTemp1();
 			break;
 
 		case BEQ:
-            boolean validade = Processador.op1 == Processador.op2;
+            boolean validade = Processador.bufferDecodEx.getTemp1() == Processador.bufferDecodEx.getTemp2();
             if (validade) {Processador.validCount++;} else {Processador.invalidCount++;}
             Processador.atualizarPredicao(instrucaoARodar, validade);
 			break;

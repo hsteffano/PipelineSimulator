@@ -20,17 +20,17 @@ public final class Processador {
 	private static Busca busca = new Busca();
 
 	public static int PC = 0;
-	
-	public static int op1 = 0;
-	public static int op2 = 0;
-	public static int op3 = 0;
-	public static int bufferExMem = 0;
+
+	public static Buffer bufferBuscaDecod = new Buffer();
+	public static Buffer bufferDecodEx = new Buffer();
+	public static Buffer bufferExMem = new Buffer();
+	public static Buffer bufferMemWb = new Buffer();
 
 	public static int cicleCount = 1;
 	public static int validCount = 0;
 	public static int invalidCount = 0;
 
-	public void runPipeline() {
+	public void runPipeline(boolean incluirPredicao) {
 		while (true) { //Clock
 	        Processador.PC++;
 			wb.rodar(mem.getInstrucao());
@@ -38,7 +38,7 @@ public final class Processador {
 			exec.rodar(dec.getInstrucao());
 			dec.rodar(busca.getInstrucao());
 			busca.rodar(new Instrucao());
-			LogHelper.log("-FINAL- validas " + validCount + " invalidas " + invalidCount + " ciclos " + cicleCount++);		
+			LogHelper.log("-FIM INSTRUCAO- validas " + validCount + " invalidas " + invalidCount + " ciclos " + cicleCount++);
 		}
 	}
 
@@ -70,6 +70,8 @@ public final class Processador {
         }
 	    return op;
     }
+
+    public static void invalidarPipeline() {}
 
     public static int stringToInt(String string) {
 	    return Integer.parseInt(string == null ? "0" : string);

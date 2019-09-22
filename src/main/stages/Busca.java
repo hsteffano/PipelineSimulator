@@ -16,15 +16,37 @@ public final class Busca implements Stage {
 		final String linha = FileHelper.lerLinha(Processador.PC);
 		LogHelper.log("fetched: " + linha);
 		instrucaoARodar = InstructionHelper.mapeiaInstrucao(linha);
-		if (isJump(instrucaoARodar) && Processador.buscarPredicao(instrucaoARodar)) {
-		    instrucaoARodar.setValida(true);
-		    Processador.PC = Processador.PC + Processador.stringToInt(instrucaoARodar.getOp3());
-        }
-		this.instrucao = instrucaoARodar;
+
+		switch (instrucaoARodar.getOpCode()) {
+			case B:
+				bToBeq(instrucaoARodar);
+				instrucaoARodar.setValida(true);
+				jump(instrucaoARodar.getOp3());
+				break;
+
+			case BEQ:
+				if (Processador.buscarPredicao(instrucaoARodar)) {
+					instrucaoARodar.setValida(true);
+					jump(instrucaoARodar.getOp3());
+				}
+				break;
+
+			default:
+				this.instrucao = instrucaoARodar;
+				break;
+		}
+
 	}
 	
-	private boolean isJump(Instrucao instrucao) {
-		return instrucao.getOpCode() == Operacao.BEQ || instrucao.getOpCode() == Operacao.B;
+	private void jump(String offset) {
+		Processador.PC = Processador.PC + Processador.stringToInt(offset);
+	}
+
+	private void bToBeq(final Instrucao b) {
+		b.setOpCode(Operacao.BEQ);
+		b.setOp3(b.getOp1());
+		b.setOp1("0");
+		b.setOp2("0");
 	}
 
 	public Instrucao getInstrucao() {

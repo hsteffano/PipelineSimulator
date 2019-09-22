@@ -8,10 +8,11 @@ public final class Mem implements Stage {
 	private static Instrucao instrucao = new Instrucao();
 	
 	public void rodar(Instrucao instrucaoARodar) {
-        Processador.liberarEstagio("MEMORIA");
+        Processador.liberarEstagio("MEM");
 		if (!instrucaoARodar.isValida())
 			return;
-		//salva em mem		
+		//salva em mem
+		Processador.bufferMemWb = Processador.bufferExMem;
 		this.instrucao = instrucaoARodar;
 	}
 

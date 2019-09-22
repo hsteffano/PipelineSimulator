@@ -9,12 +9,15 @@ public final class Dec implements Stage {
 	
 	public void rodar(Instrucao instrucaoARodar) {
         Processador.liberarEstagio("DECOD");
+
 		if (!instrucaoARodar.isValida())
 			return;
-        Processador.op1 = Processador.registradores[Processador.stringToInt(instrucaoARodar.getOp1())];//FIXME
-        Processador.op2 = Processador.registradores[Processador.stringToInt(instrucaoARodar.getOp2())];
-        Processador.op3 = Processador.registradores[Processador.stringToInt(instrucaoARodar.getOp3())];
-		this.instrucao = instrucaoARodar;
+
+        Processador.bufferDecodEx.setTemp1(Processador.registradores[Processador.stringToInt(instrucaoARodar.getOp1())]);//FIXME
+        Processador.bufferDecodEx.setTemp2(Processador.registradores[Processador.stringToInt(instrucaoARodar.getOp2())]);
+        Processador.bufferDecodEx.setTemp3(Processador.stringToInt(instrucaoARodar.getOp3()));
+
+        instrucao = instrucaoARodar;
 	}
 
 	public Instrucao getInstrucao() {
