@@ -26,6 +26,7 @@ public final class InstructionHelper {
 			instrucao.setOp2(parametros.get(1));
 			instrucao.setOp3(parametros.get(2));
 		}
+		instrucao.setValida(true);
 
 		return instrucao;
 	}
