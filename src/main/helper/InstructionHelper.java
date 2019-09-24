@@ -14,17 +14,19 @@ public final class InstructionHelper {
 		final Instrucao instrucao = new Instrucao();
 		final int opCodeEnd = linha.indexOf(' ');
 		instrucao.setOpCode(Operacao.valueOf(linha.substring(0, opCodeEnd).toUpperCase()));
-
-		final List<String> parametros = new ArrayList<>();
-		final Matcher matcher = Pattern.compile("-?[0-9]").matcher(linha.substring(opCodeEnd, linha.indexOf('#')));
-		while (matcher.find()) {
-			parametros.add(matcher.group());
-		}
-
-		instrucao.setOp1(parametros.get(0));
-		if (parametros.size() > 1) {
-			instrucao.setOp2(parametros.get(1));
-			instrucao.setOp3(parametros.get(2));
+		
+		if (instrucao.getOpCode() != Operacao.NOP) {
+			final List<String> parametros = new ArrayList<>();
+			final Matcher matcher = Pattern.compile("-?[0-9]").matcher(linha.substring(opCodeEnd, linha.length() - 1));
+			while (matcher.find()) {
+				parametros.add(matcher.group());
+			}
+	
+			instrucao.setOp1(parametros.get(0));
+			if (parametros.size() > 1) {
+				instrucao.setOp2(parametros.get(1));
+				instrucao.setOp3(parametros.get(2));
+			}
 		}
 		instrucao.setValida(true);
 

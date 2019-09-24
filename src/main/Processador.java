@@ -11,8 +11,6 @@ import main.stages.Exec;
 import main.stages.Mem;
 import main.stages.Wb;
 
-import static main.helper.StringUtils.stringToInt;
-
 public final class Processador {
 
     public Processador(boolean incluirPredicao) {
@@ -61,7 +59,7 @@ public final class Processador {
         LogHelper.log("MEM  " + mem.getInstrucao().toString());
         LogHelper.log("WB   " + wb.getInstrucao().toString());
         LogHelper.log("ciclos " + cicleCount + " validas " + validCount + " invalidas " + invalidCount);
-        LogHelper.log("Pressione para avançar um ciclo");
+        LogHelper.log("Pressione para avancar um ciclo");
         keyboard.nextLine();
     }
 

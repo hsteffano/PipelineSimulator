@@ -4,7 +4,6 @@ import main.Predicao;
 import main.Processador;
 import main.helper.FileHelper;
 import main.helper.InstructionHelper;
-import main.helper.LogHelper;
 import main.model.Instrucao;
 import main.model.enumerador.Operacao;
 
