@@ -19,7 +19,6 @@ public final class Predicao {
             int endereco = getEnderecoPredicao(stringToInt(instrucao.getOp3()));
             predicoes[endereco] = false;
             Processador.PC = Processador.PC - stringToInt(instrucao.getOp3());
-            Processador.invalidarPipeline();
         }
     }
 

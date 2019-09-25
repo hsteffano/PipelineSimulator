@@ -12,6 +12,8 @@ public final class InstructionHelper {
 
 	public static Instrucao mapeiaInstrucao(String linha) {
 		final Instrucao instrucao = new Instrucao();
+		if (linha.isEmpty())
+			return new Instrucao();
 		final int opCodeEnd = linha.indexOf(' ');
 		instrucao.setOpCode(Operacao.valueOf(linha.substring(0, opCodeEnd).toUpperCase()));
 		
@@ -28,7 +30,6 @@ public final class InstructionHelper {
 				instrucao.setOp3(parametros.get(2));
 			}
 		}
-		instrucao.setValida(true);
 
 		return instrucao;
 	}

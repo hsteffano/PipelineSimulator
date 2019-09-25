@@ -1,5 +1,6 @@
 package main;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 import main.helper.LogHelper;
@@ -10,6 +11,8 @@ import main.stages.Dec;
 import main.stages.Exec;
 import main.stages.Mem;
 import main.stages.Wb;
+
+import static main.helper.StringUtils.stringToInt;
 
 public final class Processador {
 
@@ -60,6 +63,7 @@ public final class Processador {
         LogHelper.log("WB   " + wb.getInstrucao().toString());
         LogHelper.log("ciclos " + cicleCount + " validas " + validCount + " invalidas " + invalidCount);
         LogHelper.log("Pressione para avancar um ciclo");
+        LogHelper.log(Arrays.toString(registradores));
         keyboard.nextLine();
     }
 
@@ -68,5 +72,9 @@ public final class Processador {
         dec.getInstrucao().setValida(false);
         exec.getInstrucao().setValida(false);
     }
+	
+	public static void jump(String offset) {
+		Processador.PC = Processador.PC + stringToInt(offset);
+	}
 	
 }

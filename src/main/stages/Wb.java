@@ -11,13 +11,18 @@ public final class Wb implements Stage {
 	private Instrucao instrucao = new Instrucao();
 	
 	public void rodar(Instrucao instrucaoARodar) {
-		if (!instrucaoARodar.isValida())
+		this.instrucao = instrucaoARodar;
+		if (instrucaoARodar.isValida()) {
+			Processador.validCount++;
+		} else {
+			if (instrucaoARodar.getOpCode() != null)
+				Processador.invalidCount++; 
 			return;
+		}
+		
 		if (instrucaoARodar.getOpCode() != Operacao.B) {
 			Processador.registradores[stringToInt(instrucaoARodar.getOp1())] = Processador.bufferMemWb.getTemp1();
 		}
-		if (instrucaoARodar.isValida()) {Processador.validCount++;} else {Processador.invalidCount++;}
-		this.instrucao = instrucaoARodar;
 	}
 
 	public Instrucao getInstrucao() {

@@ -10,14 +10,10 @@ public final class Dec implements Stage {
 	private Instrucao instrucao = new Instrucao();
 	
 	public void rodar(Instrucao instrucaoARodar) {
-		if (!instrucaoARodar.isValida())
-			return;
-
         Processador.bufferDecodEx.setTemp1(Processador.registradores[stringToInt(instrucaoARodar.getOp1())]);
         Processador.bufferDecodEx.setTemp2(Processador.registradores[stringToInt(instrucaoARodar.getOp2())]);
         Processador.bufferDecodEx.setTemp3(stringToInt(instrucaoARodar.getOp3()));
-
-        instrucao = instrucaoARodar;
+        this.instrucao = instrucaoARodar;
 	}
 
 	public Instrucao getInstrucao() {
