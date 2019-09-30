@@ -29,8 +29,9 @@ public class Exec implements Stage {
 		
 				case BEQ:
 		            boolean validade = Processador.bufferDecodEx.getTemp1() == Processador.bufferDecodEx.getTemp2();
-					Predicao.atualizarPredicao(instrucaoARodar, validade); 
-			        if (!Processador.incluirPredicao && instrucao.isValida()) {
+					Predicao.atualizarPredicao(instrucaoARodar, validade);
+					instrucaoARodar.setValida(validade);
+			        if (instrucao.isValida()) {
 			        	Processador.jump(instrucao.getOp3());
 			        	Processador.invalidarPipeline();
 			        }

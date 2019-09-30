@@ -22,12 +22,14 @@ public class Busca implements Stage {
 				case B:
 					bToBeq(instrucaoARodar);
 					instrucaoARodar.setValida(true);
-					Processador.jump(instrucaoARodar.getOp3());
+					if (Processador.incluirPredicao) {
+						Processador.jump(instrucaoARodar.getOp3());
+					}
 					break;
 	
 				case BEQ:
-					if (Predicao.buscarPredicao(instrucaoARodar)) {
-						instrucaoARodar.setValida(true);
+					instrucaoARodar.setValida(true);
+					if (Processador.incluirPredicao && Predicao.buscarPredicao(instrucaoARodar)) {
 						Processador.jump(instrucaoARodar.getOp3());
 					}
 					break;
