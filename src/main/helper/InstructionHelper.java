@@ -8,18 +8,18 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class InstructionHelper {
+public class InstructionHelper {
 
 	public static Instrucao mapeiaInstrucao(String linha) {
-		final Instrucao instrucao = new Instrucao();
+		Instrucao instrucao = new Instrucao();
 		if (linha.isEmpty())
 			return new Instrucao();
-		final int opCodeEnd = linha.indexOf(' ');
+		int opCodeEnd = linha.indexOf(' ');
 		instrucao.setOpCode(Operacao.valueOf(linha.substring(0, opCodeEnd).toUpperCase()));
 		
 		if (instrucao.getOpCode() != Operacao.NOP) {
-			final List<String> parametros = new ArrayList<>();
-			final Matcher matcher = Pattern.compile("-?[0-9]").matcher(linha.substring(opCodeEnd, linha.length() - 1));
+			List<String> parametros = new ArrayList<>();
+			Matcher matcher = Pattern.compile("-?[0-9]+").matcher(linha.substring(opCodeEnd, linha.length() - 1));
 			while (matcher.find()) {
 				parametros.add(matcher.group());
 			}

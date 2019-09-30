@@ -5,7 +5,7 @@ import main.model.Instrucao;
 
 import static main.helper.StringUtils.stringToInt;
 
-public final class Dec implements Stage {
+public class Dec implements Stage {
 	
 	private Instrucao instrucao = new Instrucao();
 	

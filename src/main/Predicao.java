@@ -4,7 +4,7 @@ import main.model.Instrucao;
 
 import static main.helper.StringUtils.stringToInt;
 
-public final class Predicao {
+public class Predicao {
     private static boolean[] predicoes = new boolean[32];
 
     public static boolean buscarPredicao(Instrucao instrucao) {

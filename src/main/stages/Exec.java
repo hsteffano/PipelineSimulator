@@ -4,7 +4,7 @@ import main.Predicao;
 import main.Processador;
 import main.model.Instrucao;
 
-public final class Exec implements Stage {
+public class Exec implements Stage {
 	
 	private Instrucao instrucao = new Instrucao();
 	

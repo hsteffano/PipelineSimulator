@@ -14,7 +14,7 @@ import main.stages.Wb;
 
 import static main.helper.StringUtils.stringToInt;
 
-public final class Processador {
+public class Processador {
 
     public Processador(boolean incluirPredicao) {
         this.incluirPredicao = incluirPredicao;
@@ -49,13 +49,17 @@ public final class Processador {
 			exec.rodar(dec.getInstrucao());
 			dec.rodar(busca.getInstrucao());
 			busca.rodar(new Instrucao());
-            cicleCount++;
 			liberarPipeline();
 		}
 	}
 
 	private static void liberarPipeline() {
-        final Scanner keyboard = new Scanner(System.in);
+	    if (cicleCount > 0 && isPipelineVazio()) {
+	        LogHelper.log("-FIM EXECUCAO-");
+	        System.exit(1);
+        }
+        cicleCount++;
+        Scanner keyboard = new Scanner(System.in);
         LogHelper.log("BUSCA" + busca.getInstrucao().toString());
         LogHelper.log("DEC  " + dec.getInstrucao().toString());
         LogHelper.log("EXEC " + exec.getInstrucao().toString());
@@ -76,5 +80,13 @@ public final class Processador {
 	public static void jump(String offset) {
 		Processador.PC = Processador.PC + stringToInt(offset);
 	}
+
+	private static boolean isPipelineVazio() {
+	    return busca.getInstrucao().getOpCode() == null
+            && dec.getInstrucao().getOpCode() == null
+            && exec.getInstrucao().getOpCode() == null
+            && mem.getInstrucao().getOpCode() == null
+            && wb.getInstrucao().getOpCode() == null;
+    }
 	
 }
