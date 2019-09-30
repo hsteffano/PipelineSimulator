@@ -5,9 +5,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-public final class FileHelper {
+public class FileHelper {
 
-	private static final String FILE_PATH = "src/main/resources/teste_exercício.txt";
+	private static final String FILE_PATH = "src/main/resources/teste_exercicio.txt";
 	
 	public static String lerLinha(int linha) {
 		try (Stream<String> all_lines = Files.lines(Paths.get(FILE_PATH))) {

@@ -6,7 +6,7 @@ import main.model.enumerador.Operacao;
 
 import static main.helper.StringUtils.stringToInt;
 
-public final class Wb implements Stage {
+public class Wb implements Stage {
 
 	private Instrucao instrucao = new Instrucao();
 	
@@ -20,7 +20,9 @@ public final class Wb implements Stage {
 			return;
 		}
 		
-		if (instrucaoARodar.getOpCode() != Operacao.B) {
+		if (instrucaoARodar.getOpCode() != Operacao.B
+				&& instrucaoARodar.getOpCode() != Operacao.NOP
+				&& instrucaoARodar.getOpCode() != Operacao.BEQ) {
 			Processador.registradores[stringToInt(instrucaoARodar.getOp1())] = Processador.bufferMemWb.getTemp1();
 		}
 	}
