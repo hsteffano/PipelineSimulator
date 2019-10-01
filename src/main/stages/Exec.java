@@ -4,7 +4,7 @@ import main.Predicao;
 import main.Processador;
 import main.model.Instrucao;
 
-public class Exec implements Stage {
+public class Exec {
 	
 	private Instrucao instrucao = new Instrucao();
 	
@@ -31,9 +31,9 @@ public class Exec implements Stage {
 		            boolean validade = Processador.bufferDecodEx.getTemp1() == Processador.bufferDecodEx.getTemp2();
 					Predicao.atualizarPredicao(instrucaoARodar, validade);
 					instrucaoARodar.setValida(validade);
-			        if (instrucao.isValida()) {
-			        	Processador.jump(instrucao.getOp3());
+			        if (instrucaoARodar.isValida()) {
 			        	Processador.invalidarPipeline();
+			        	Processador.jump(instrucaoARodar.getOp3());
 			        }
 					break;
 		

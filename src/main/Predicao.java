@@ -15,10 +15,10 @@ public class Predicao {
     }
 
     public static void atualizarPredicao(Instrucao instrucao, boolean validade) {
-        if (!validade && instrucao.isValida()) {
+        if (Processador.incluirPredicao && !validade && instrucao.isValida()) {
             int endereco = getEnderecoPredicao(stringToInt(instrucao.getOp3()));
             predicoes[endereco] = false;
-            Processador.PC = Processador.PC - stringToInt(instrucao.getOp3());
+            Processador.jump("-" + instrucao.getOp3());
         }
     }
 

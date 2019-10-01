@@ -7,9 +7,7 @@ import main.helper.InstructionHelper;
 import main.model.Instrucao;
 import main.model.enumerador.Operacao;
 
-import static main.helper.StringUtils.stringToInt;
-
-public class Busca implements Stage {
+public class Busca {
 	
 	private Instrucao instrucao = new Instrucao();
 	

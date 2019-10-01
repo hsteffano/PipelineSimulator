@@ -65,16 +65,15 @@ public class Processador {
         LogHelper.log("EXEC " + exec.getInstrucao().toString());
         LogHelper.log("MEM  " + mem.getInstrucao().toString());
         LogHelper.log("WB   " + wb.getInstrucao().toString());
+        LogHelper.log(Arrays.toString(registradores));
         LogHelper.log("ciclos " + cicleCount + " validas " + validCount + " invalidas " + invalidCount);
         LogHelper.log("Pressione para avancar um ciclo");
-        LogHelper.log(Arrays.toString(registradores));
         keyboard.nextLine();
     }
 
     public static void invalidarPipeline() {
         busca.getInstrucao().setValida(false);
         dec.getInstrucao().setValida(false);
-        exec.getInstrucao().setValida(false);
     }
 	
 	public static void jump(String offset) {

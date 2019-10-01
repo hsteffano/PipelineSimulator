@@ -3,7 +3,7 @@ package main.stages;
 import main.Processador;
 import main.model.Instrucao;
 
-public class Mem implements Stage {
+public class Mem {
 	
 	private Instrucao instrucao = new Instrucao();
 	

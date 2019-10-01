@@ -5,7 +5,7 @@ import main.model.Instrucao;
 
 import static main.helper.StringUtils.stringToInt;
 
-public class Dec implements Stage {
+public class Dec {
 	
 	private Instrucao instrucao = new Instrucao();
 	
@@ -13,6 +13,7 @@ public class Dec implements Stage {
         Processador.bufferDecodEx.setTemp1(Processador.registradores[stringToInt(instrucaoARodar.getOp1())]);
         Processador.bufferDecodEx.setTemp2(Processador.registradores[stringToInt(instrucaoARodar.getOp2())]);
         Processador.bufferDecodEx.setTemp3(stringToInt(instrucaoARodar.getOp3()));
+
         this.instrucao = instrucaoARodar;
 	}
 

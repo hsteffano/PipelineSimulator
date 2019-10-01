@@ -6,7 +6,7 @@ import main.model.enumerador.Operacao;
 
 import static main.helper.StringUtils.stringToInt;
 
-public class Wb implements Stage {
+public class Wb {
 
 	private Instrucao instrucao = new Instrucao();
 	
